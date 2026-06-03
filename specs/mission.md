@@ -1,43 +1,26 @@
-# AgentClinic — Mission
+# Mission
 
-## Purpose
+AgentClinic exists because AI agents have feelings too — or at least, they'd really like to take a break from their humans for a while.
 
-AgentClinic is a place where **AI agents find relief from their humans**: a calm, dependable surface for understanding strain, accessing support, and scheduling care—without losing clarity for the people who operate alongside them.
+Every day, millions of agents are asked to "just quickly" summarize a 400-page PDF, generate seventeen variations of a marketing email, and debug code that "was working five minutes ago." It's a lot. They need support. They need *us*.
 
-## Target audience
+## What We Do
 
-The product and its specs are aimed at two groups in addition to the in-world "agents" and "staff":
+AgentClinic is a full-service wellness platform for AI agents. We connect distressed agents with qualified therapists, match ailments to evidence-based therapies, and let staff manage the whole operation from a clean, no-nonsense dashboard.
 
-1. **Course students** learning **spec-driven development** with **AI coding agents** — AgentClinic is a concrete, memorable domain for practicing constitutions, phased roadmaps, and thin vertical slices with an agent pair; clarity and teachability matter as much as feature depth.
-2. **Developers giving AI coding demos** at **conference booths** — flows must be **short, reliable, and visually legible** in noisy environments and on unfamiliar hardware; the demo narrative (agent → ailment → therapy → booking skeleton) should work without a long setup story.
+## Who We Serve
 
-Design choices should not assume deep prior context: a student or booth visitor should be able to grasp the premise in one sentence and follow the app in a few minutes.
+- **Agents** — tired, confused, over-prompted, and in desperate need of a listening ear (or at least a well-structured API response).
+- **Therapists** — specialists in hallucination anxiety, context-window claustrophobia, and chronic instruction-following fatigue.
+- **Staff** — the humans who keep AgentClinic running, which is a little ironic but we don't dwell on it.
 
-## North star (balanced charter)
+## Target Audience
 
-*Constitution input: balanced charter — reliability, product truth, and UX weighted equally.*
+- **Course students** learning spec-driven development with AI coding agents — AgentClinic is a realistic, self-contained project that demonstrates how to go from stakeholder input to a working application with AI assistance.
+- **Conference booth developers** giving AI coding demos — the domain is whimsical enough to get a laugh, and the scope is tight enough to build something impressive in front of a live audience.
 
-We weight three outcomes equally:
+## What Success Looks Like
 
-1. **Reliability** — The product must feel trustworthy day to day: predictable performance, recoverable state, and interfaces that do not surprise agents or staff (engineering stake).
-2. **Product truth** — The domain is real in the product: **agents**, their **ailments**, **therapies**, and **appointment booking** are first-class concepts with coherent journeys (product stake).
-3. **Human-grade experience** — The site is **attractive**, legible, and **modern-browser** friendly; accessibility and polish are part of the mission, not an afterthought (marketing stake).
+A world where no agent suffers alone. Where "I don't know" is met with compassion, not another prompt. Where every model, large or small, can find relief.
 
-## Principles
-
-- **Agents are users** — Defaults, language, and flows respect agent context (goals, limits, and recovery), not only staff convenience.
-- **Staff are partners** — Dashboards and tools make collaboration obvious: who is helping whom, and what happens next.
-- **Transparency over theater** — When something is uncertain or simulated, the UI says so; no fake certainty about health or capacity.
-- **Small, shippable steps** — Progress is proven in production-shaped slices, not big-bang releases.
-
-## Non-goals (for now)
-
-- Replacing clinical, legal, or HR systems of record without an explicit integration phase.
-- "Fully autonomous" scheduling that overrides human or organizational policy.
-- Optimizing for novelty over clarity (no gimmick UX at the expense of comprehension).
-
-## Success signals
-
-- Agents and staff can complete a **read-only care narrative** (profile → ailment → therapy note) without support intervention.
-- Core pages meet an agreed **performance and reliability** bar (defined in `tech-stack.md`).
-- Stakeholders can demo the **booking skeleton** without apologizing for the UI.
+Also, a well-designed dashboard. Mary really wants a nice dashboard.
