@@ -26,13 +26,15 @@ describe("home route", () => {
     expect(body).toContain(`href="${layoutCssHref}"`);
   });
 
-  it("GET / uses a semantic HTML document shell", async () => {
+  it("GET / uses a semantic HTML document shell with viewport meta", async () => {
     const body = await (await requestApp("/")).text();
 
     expect(body).toContain('<html lang="en">');
     expect(body).toContain("<head>");
     expect(body).toContain("<body>");
     expect(body).toContain("<title>AgentClinic</title>");
+    expect(body).toContain('name="viewport"');
+    expect(body).toContain("width=device-width");
   });
 });
 

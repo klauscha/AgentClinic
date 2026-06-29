@@ -50,6 +50,8 @@ describe("Layout", () => {
     const html = await renderPage(Page);
 
     expect(html).toContain(`href="${layoutCssHref}"`);
+    expect(html).toContain('name="viewport"');
+    expect(html).toContain("width=device-width");
     expect(html).toContain('class="site-header"');
     expect(html).toContain('class="site-main"');
     expect(html).toContain('class="site-footer"');

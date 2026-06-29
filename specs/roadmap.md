@@ -9,11 +9,12 @@ Phases are intentionally small — each one is a shippable slice of work, indepe
 - Single `/` route returning "AgentClinic is open for business"
 - Confirm TypeScript types work end-to-end
 - Shared layout (`Header`, `Main`, `Footer` in separate files) with linked `layout.css`
+- **Responsive base** — viewport meta, mobile-first CSS, fluid spacing
 - Vitest validation (`npm test`) for routes, stylesheet, and layout structure
 
 ## Phase 2 — Base Layout
 - Server-side JSX layout component (header, nav, main, footer)
-- Basic CSS (custom properties, reset, typography)
+- Extend shared CSS (custom properties, reset, typography) — **responsive across breakpoints**
 - All routes render inside the shared layout
 
 ## Phase 3 — Agent List
@@ -46,9 +47,9 @@ Phases are intentionally small — each one is a shippable slice of work, indepe
 - Mary's dashboard is now real
 
 ## Phase 9 — Polish & Accessibility
-- Responsive layout for Steve's modern-browser requirement
 - Semantic HTML audit
 - Keyboard navigation and focus styles
+- Advanced responsive polish (complex tables, nav collapse) as new UI patterns are added
 
 ## Phase 10 — Hardening
 - Error pages (404, 500)

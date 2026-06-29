@@ -18,6 +18,7 @@ The page must:
 - Include the tagline **`AgentClinic is open for business`** in the body
 - Use a shared **layout** with header, main, and footer regions rendered via Hono JSX
 - Link an external stylesheet for base layout styles
+- Follow **responsive design** per `specs/tech-stack.md`: viewport meta in `Layout`, mobile-first CSS with media queries, fluid spacing on all screen sizes
 
 ### Layout file structure
 
@@ -48,10 +49,10 @@ Per `specs/tech-stack.md`:
 | Runtime | Node.js |
 | Server | **Hono** |
 | Templating | **Hono JSX** — home page and shared layout components |
-| CSS | Plain CSS file (`src/styles/layout.css`) linked from `Layout`; served as a static asset |
+| CSS | Plain CSS file (`src/styles/layout.css`) linked from `Layout`; mobile-first responsive rules; served as a static asset |
 | Data | No database in Phase 1 |
 | Dev runner | `tsx` for running TypeScript without a separate compile step in dev |
-| Testing | **Vitest** — `npm test` validates routes, stylesheet, and layout structure (`src/app.test.ts`) |
+| Testing | **Vitest** — `npm test` validates routes, stylesheet, layout structure, and responsive markup/CSS |
 
 ## Out of scope
 
@@ -66,4 +67,5 @@ Per `specs/tech-stack.md`:
 | Decision | Resolution |
 |----------|------------|
 | Plain text vs. HTML for `/` | **HTML via Hono JSX** — first use of the templating layer, minimal HTML shell only |
-| CSS for home page | **External stylesheet** — `layout.css` linked from `Layout.tsx` and served at `/styles/layout.css` |
+| CSS for home page | **External stylesheet** — `layout.css` linked from `Layout.tsx`, served at `/styles/layout.css`, with mobile-first responsive rules |
+| Responsive UI | **Required** — viewport meta in `Layout.tsx`; fluid layout tokens and `@media` queries in `layout.css` |

@@ -15,9 +15,18 @@ describe("stylesheet route", () => {
 
     expect(body).toContain(":root");
     expect(body).toContain("--color-accent");
+    expect(body).toContain("--content-max-width");
     expect(body).toContain(".site-header");
     expect(body).toContain(".site-main");
     expect(body).toContain(".site-footer");
+  });
+
+  it(`GET ${layoutCssHref} includes mobile-first responsive rules`, async () => {
+    const body = await (await requestApp(layoutCssHref)).text();
+
+    expect(body).toContain("overflow-wrap: break-word");
+    expect(body).toContain("clamp(");
+    expect(body).toContain("@media (min-width: 48rem)");
   });
 
   it("GET /styles/unknown.css returns 404", async () => {
