@@ -21,7 +21,11 @@ Numbered task groups for implementation. Order matters within each group where n
 
 ## 4. Main layout component and styles
 
-1. Create `src/components/layout/` with three subcomponents — `Header.tsx`, `Main.tsx`, and `Footer.tsx` — plus a composing `Layout.tsx` that wraps page content in a full HTML document shell (`<html>`, `<head>`, `<body>`).
+1. Create `src/components/layout/` with a composing `Layout.tsx` that wraps page content in a full HTML document shell (`<html>`, `<head>`, `<body>`). **Each layout subcomponent must live in its own file** — one component per file, no inline definitions inside `Layout.tsx`:
+   - `Header.tsx` — clinic name heading
+   - `Main.tsx` — page body wrapper (accepts `children`)
+   - `Footer.tsx` — shared footer copy
+   `Layout.tsx` imports and composes these three files; it does not define header, main, or footer markup inline.
 2. Move the clinic name heading into `Header`; page-specific body content (e.g. the home tagline) goes in `Main` via `children`; `Footer` holds shared footer copy.
 3. Add `src/styles/layout.css` with base layout styles using CSS custom properties (per `specs/tech-stack.md`).
 4. Export the stylesheet public path from `src/styles/index.ts` (e.g. `layoutCssHref`); import it in `Layout.tsx` and emit `<link rel="stylesheet" href="...">` in `<head>`.

@@ -16,8 +16,23 @@ The page must:
 - Return `Content-Type: text/html` with status `200`
 - Display the clinic name as a heading
 - Include the tagline **`AgentClinic is open for business`** in the body
+- Use a shared **layout** with header, main, and footer regions rendered via Hono JSX
+- Link an external stylesheet for base layout styles
 
-No navigation, layout system, CSS file, database, or domain data (agents, ailments, etc.) is included.
+### Layout file structure
+
+Layout subcomponents are **one component per file** under `src/components/layout/`:
+
+| File | Responsibility |
+|------|----------------|
+| `Layout.tsx` | Document shell; composes `Header`, `Main`, and `Footer` via imports |
+| `Header.tsx` | Shared header (clinic name heading) |
+| `Main.tsx` | Page body wrapper; receives page content as `children` |
+| `Footer.tsx` | Shared footer copy |
+
+`Layout.tsx` must not inline header, main, or footer markup — each region is imported from its own file.
+
+No navigation, database, or domain data (agents, ailments, etc.) is included.
 
 ## Mission alignment
 
@@ -32,14 +47,14 @@ Per `specs/tech-stack.md`:
 | Language | TypeScript |
 | Runtime | Node.js |
 | Server | **Hono** |
-| Templating | **Hono JSX** — activated for the home page; first use of the stack's chosen renderer |
-| CSS | Not in scope — no stylesheet required for the minimal page |
+| Templating | **Hono JSX** — home page and shared layout components |
+| CSS | Plain CSS file (`src/styles/layout.css`) linked from `Layout`; served as a static asset |
 | Data | No database in Phase 1 |
 | Dev runner | `tsx` for running TypeScript without a separate compile step in dev |
 
 ## Out of scope
 
-- Full layout/nav component, shared header/footer, CSS custom properties system (Phase 2).
+- Navigation menus, multi-page routing beyond `/`, or a CSS custom-properties design system beyond base layout styles.
 - SQLite, agents, ailments, therapies, appointments, dashboard (later roadmap phases).
 - React or client-side frameworks.
 - Docker, ORM, production hosting decisions beyond "runs locally with `tsx`".
@@ -50,4 +65,4 @@ Per `specs/tech-stack.md`:
 | Decision | Resolution |
 |----------|------------|
 | Plain text vs. HTML for `/` | **HTML via Hono JSX** — first use of the templating layer, minimal HTML shell only |
-| CSS for home page | No external stylesheet required; bare semantic HTML is acceptable |
+| CSS for home page | **External stylesheet** — `layout.css` linked from `Layout.tsx` and served at `/styles/layout.css` |
