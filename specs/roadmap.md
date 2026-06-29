@@ -9,6 +9,7 @@ Phases are intentionally small — each one is a shippable slice of work, indepe
 - Single `/` route returning "AgentClinic is open for business"
 - Confirm TypeScript types work end-to-end
 - Shared layout (`Header`, `Main`, `Footer` in separate files) with linked `layout.css`
+- Vitest validation (`npm test`) for routes, stylesheet, and layout structure
 
 ## Phase 2 — Base Layout
 - Server-side JSX layout component (header, nav, main, footer)

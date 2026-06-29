@@ -5,12 +5,12 @@ Numbered task groups for implementation. Order matters within each group where n
 ## 1. Project scaffold and dependencies
 
 1. Initialize Node project metadata (`package.json`) suitable for a small Hono service.
-2. Add runtime/dev dependencies aligned with `specs/tech-stack.md`: **Hono**, **TypeScript**, **tsx**, and type packages as needed.
+2. Add runtime/dev dependencies aligned with `specs/tech-stack.md`: **Hono**, **TypeScript**, **tsx**, **Vitest**, and type packages as needed.
 3. Add `tsconfig.json` with settings appropriate for a Node + Hono app (module resolution, strictness consistent with "types work end-to-end"). Enable JSX support (`"jsx": "react-jsx"` or equivalent per Hono JSX guidance) so the compiler accepts `.tsx` files.
 
 ## 2. Hono application entry and server start
 
-1. Create the application entry (e.g. `src/index.ts`) that constructs a Hono app instance.
+1. Extract the Hono app into `src/app.ts` (export `app`) so `src/index.ts` only starts the server and Vitest can call `app.fetch` without binding a port.
 2. Start the HTTP server on a conventional port (e.g. from `process.env.PORT` with a sensible default) so `tsx` can run it predictably.
 
 ## 3. Minimal home page
@@ -32,8 +32,10 @@ Numbered task groups for implementation. Order matters within each group where n
 5. Serve static styles from `src/styles/` via `serveStatic` middleware in `src/index.ts` so the linked CSS file is reachable at runtime.
 6. Refactor `Home.tsx` to render inside `<Layout>` instead of owning the document shell directly.
 
-## 5. TypeScript and run verification
+## 5. TypeScript, Vitest, and run verification
 
-1. Ensure the project type-checks (`tsc --noEmit` or equivalent) with no errors in the new code.
-2. Run the dev server via `tsx` and manually verify GET `/` in a browser and via curl (see `validation.md`).
-3. Fix any type or import issues until editor and CLI agree the codebase is sound for this slice.
+1. Ensure the project type-checks (`npm run typecheck` / `tsc --noEmit`) with no errors in the new code.
+2. Add `vitest.config.ts` and Vitest suites under `src/` (routes, components, pages, styles) covering GET `/`, GET `/styles/layout.css`, layout structure, and component markup (see `validation.md`).
+3. Wire `"test": "vitest run"` and `"test:watch": "vitest"` in `package.json` per `specs/tech-stack.md`; `npm test` must pass before merge.
+4. Optionally run the dev server via `tsx` and spot-check GET `/` in a browser (automated tests are the primary validation gate).
+5. Fix any type, test, or import issues until editor and CLI agree the codebase is sound for this slice.

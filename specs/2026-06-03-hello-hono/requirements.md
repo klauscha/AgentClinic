@@ -51,6 +51,7 @@ Per `specs/tech-stack.md`:
 | CSS | Plain CSS file (`src/styles/layout.css`) linked from `Layout`; served as a static asset |
 | Data | No database in Phase 1 |
 | Dev runner | `tsx` for running TypeScript without a separate compile step in dev |
+| Testing | **Vitest** — `npm test` validates routes, stylesheet, and layout structure (`src/app.test.ts`) |
 
 ## Out of scope
 
@@ -58,7 +59,7 @@ Per `specs/tech-stack.md`:
 - SQLite, agents, ailments, therapies, appointments, dashboard (later roadmap phases).
 - React or client-side frameworks.
 - Docker, ORM, production hosting decisions beyond "runs locally with `tsx`".
-- Automated tests, CI, lint, or formatting enforcement (may be added when Vitest is introduced).
+- CI workflow, lint, or formatting enforcement (Vitest is in scope; CI wiring is not).
 
 ## Open decisions
 
