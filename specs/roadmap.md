@@ -31,38 +31,38 @@ Phase 1 delivered the layout shell and responsive CSS foundation. Phase 2 finish
 - Confirm every new route continues to render inside `Layout`
 - Vitest coverage for nav markup and active-link behaviour
 
-## Phase 3 — Agent List
+## Phase 3 — Agent List ✅ Complete
 
 - SQLite database + first migration (`agents` table)
 - Seed a handful of fictional agents
 - `/agents` page listing all agents (responsive table/list layout)
 - Vitest tests for route and list rendering
 
-## Phase 4 — Agent Detail
+## Phase 4 — Agent Detail ✅ Complete
 
 - `/agents/:id` page showing a single agent's profile
 - Name, model type, current status, presenting complaints
 - Vitest tests for route and detail rendering
 
-## Phase 5 — Ailments Catalog
+## Phase 5 — Ailments Catalog ✅ Complete
 
 - `ailments` table + seed data (e.g., "context-window claustrophobia", "prompt fatigue")
 - `/ailments` list page
 - Link agents to one or more ailments
 
-## Phase 6 — Therapies Catalog
+## Phase 6 — Therapies Catalog ✅ Complete
 
 - `therapies` table + seed data
 - `/therapies` list page
 - Map ailments → recommended therapies
 
-## Phase 7 — Appointment Booking
+## Phase 7 — Appointment Booking ✅ Complete
 
-- `appointments` table (agent, therapist, datetime, status)
+- `appointments` table (agent, datetime, status) — **no therapist** in MVP; therapist profiles deferred to later phases
 - Form to book an appointment from an agent's detail page
 - Basic validation and confirmation page
 
-## Phase 8 — Staff Dashboard
+## Phase 8 — Staff Dashboard ✅ Complete
 
 - `/dashboard` with summary counts: agents, open appointments, ailments in-flight
 - Simple table views for staff to manage records

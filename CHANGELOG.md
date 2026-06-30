@@ -2,6 +2,17 @@
 
 User-facing changes grouped by date (newest first). Update before merging via the `update-changelog` skill (`.cursor/skills/update-changelog/SKILL.md`).
 
+## 2026-06-30
+
+- Add **MVP (Phases 3–8)** — SQLite database with demo seed data for agents, ailments, therapies, and appointments
+- Add **agent list and detail** — `/agents` table view and `/agents/:id` profiles with ailments and booking form
+- Add **ailments and therapies catalogs** — `/ailments` and `/therapies` list pages with cross-links
+- Add **appointment booking** — POST from agent detail with validation and confirmation page
+- Add **staff dashboard** — `/dashboard` with summary counts and read-only tables for Mary
+- Extend **navigation** — Home, Agents, Ailments, Therapies, and Dashboard links in header nav
+- Add **MVP spec** (`specs/2026-06-30-mvp/`) and `npm run db:setup` script
+- Expand **Vitest coverage** — database, catalog routes, comprehensive booking and dashboard tests
+
 ## 2026-06-29
 
 - Adopt **Pico CSS** as the site stylesheet baseline with a thin `layout.css` override layer

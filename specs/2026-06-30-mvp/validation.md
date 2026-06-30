@@ -13,39 +13,49 @@ npm test
 
 Both commands must exit **0**.
 
-### Test coverage strategy — critical paths
+## Test infrastructure
+
+| File | Role |
+|------|------|
+| `vitest.setup.ts` | Sets `DATABASE_PATH=:memory:` before any test file loads |
+| `src/test/db.ts` | `setupTestDb()` — `resetDb()` + `initDb()` for isolated state |
+| `src/test/helpers.ts` | `requestApp()`, `renderPage()` |
+| `src/db/seed.ts` | Exported `SEED_*` constants — single source of truth for count assertions |
+
+DB-touching suites call `setupTestDb()` in `beforeEach`. Import `SEED_*` constants rather than duplicating literal counts.
+
+## Test coverage strategy — critical paths
 
 | Area | Depth | Expected suites |
 |------|-------|-----------------|
-| Database | Light | Migration runs; tables exist; minimum seed counts |
-| Agent list (Phase 3) | Light | GET `/agents` — 200, seeded names, layout |
-| Agent detail (Phase 4) | Light | GET `/agents/:id` — fields present; unknown id handled |
-| Ailments (Phase 5) | Light | GET `/ailments` — 200, seeded content |
-| Therapies (Phase 6) | Light | GET `/therapies` — 200, seeded content |
-| **Booking (Phase 7)** | **Comprehensive** | Form on detail page; POST creates `pending` appointment; validation rejects bad input; confirmation page shows details |
-| **Dashboard (Phase 8)** | **Comprehensive** | Summary counts match seed; table views render; Dashboard nav active |
-| Navigation | Light | All five links present; `aria-current` on exact pathname match |
-| Layout / styles | Light | Existing Phase 1–2 suites still pass; Pico + layout.css served |
-
-Reuse shared helpers in `src/test/helpers.ts` (`requestApp`, `renderPage`).
+| Database | Light | `src/db/db.test.ts` — tables exist; `SEED_*` counts |
+| Agent list (Phase 3) | Light | `src/routes/agents.route.test.ts` — 200, `Claude the Anxious`, layout |
+| Agent detail (Phase 4) | Light | `src/routes/agent-detail.route.test.ts` — fields; 404 text for id 9999 |
+| Ailments (Phase 5) | Light | `src/routes/ailments.route.test.ts` — seeded ailment names |
+| Therapies (Phase 6) | Light | `src/routes/therapies.route.test.ts` — seeded therapy names |
+| **Booking (Phase 7)** | **Comprehensive** | `src/routes/booking.route.test.ts` |
+| **Dashboard (Phase 8)** | **Comprehensive** | `src/routes/dashboard.route.test.ts` |
+| Navigation | Light | `src/components/layout/nav.test.tsx` — five links; no active on `/agents/1` |
+| Layout / styles | Light | Phase 1–2 suites still pass |
 
 ### Comprehensive booking tests (minimum)
 
 | Test | Pass condition |
 |------|----------------|
-| Form present | Agent detail HTML includes booking form with datetime field |
-| Happy path POST | Valid POST creates row in `appointments` with status `pending` |
-| Validation | Missing or invalid datetime returns error (4xx), no row created |
-| Confirmation | Success redirects or links to confirmation showing agent + datetime |
+| Form present | `action="/agents/1/book"`, `name="scheduled_at"`, `type="datetime-local"` |
+| Happy path POST | `303` redirect; appointment count = `SEED_APPOINTMENT_COUNT + 1`; latest status `pending` |
+| Validation | Invalid/missing datetime → `400`, error copy in body, count unchanged |
+| Confirmation | Follow redirect → `200`, agent name, `pending` status |
 
 ### Comprehensive dashboard tests (minimum)
 
 | Test | Pass condition |
 |------|----------------|
-| Agent count | Matches number of seeded agents |
-| Open appointments | Count of `pending` appointments matches seed |
-| Ailments in-flight | Count of agents with ≥1 ailment matches seed |
-| Tables | At least one table section renders rows from seed data |
+| Agent count | `<strong>${SEED_AGENT_COUNT}</strong>` |
+| Open appointments | `<strong>3</strong>` pending (3 of 4 seed appointments) |
+| Ailments in-flight | `<strong>${SEED_AGENTS_WITH_AILMENTS}</strong>` |
+| Tables | `Claude the Anxious`, `context-window claustrophobia`, `Recent appointments` |
+| Nav | `href="/dashboard" aria-current="page"` |
 
 ## Manual checks (required spot-checks)
 
@@ -54,12 +64,13 @@ Run `npm run dev` and verify in a modern browser at **~375px** and **~1280px** w
 | Route | Check |
 |-------|-------|
 | `/` | Home loads; nav shows all five links; Home active |
-| `/agents` | Table/list of 8–10 agents; no horizontal scroll; links to detail |
-| `/agents/:id` | Profile fields visible; ailments listed; booking form present |
-| `/ailments` | Catalog list; readable on mobile |
-| `/therapies` | Catalog list with ailment associations |
-| `/dashboard` | Summary counts visible; tables readable |
-| Booking flow | Submit form on agent detail → confirmation page shows `pending` booking |
+| `/agents` | Table of 9 agents; no horizontal scroll; links to detail |
+| `/agents/1` | Profile fields; ailments listed; booking form present |
+| `/ailments` | Catalog with agent count column; readable on mobile |
+| `/therapies` | Catalog with ailment names per therapy |
+| `/dashboard` | Three summary cards; three tables; counts match visible data |
+| Booking flow | Submit form on `/agents/1` → confirmation shows `pending` |
+| `/agents/9999` | Plain-text 404 (not styled error page) |
 | Keyboard | Tab through nav links; Pico focus ring visible |
 
 ## Merge criteria summary
@@ -67,25 +78,25 @@ Run `npm run dev` and verify in a modern browser at **~375px** and **~1280px** w
 | Criterion | Pass condition |
 |-----------|----------------|
 | Branch | `feature/mvp` contains all Phases 3–8 |
-| Database | Single init migration; demo seed applied; `better-sqlite3` working |
-| Routes | `/agents`, `/agents/:id`, `/ailments`, `/therapies`, `/dashboard` + booking POST + confirmation |
-| Nav | Home, Agents, Ailments, Therapies, Dashboard in header |
-| Active nav | Exact pathname match only |
-| Agent detail | name, model type, status, presenting complaints |
-| Appointment status | `pending` and `confirmed` supported in schema |
-| Layout | All pages inside `Layout` with Pico landmarks |
+| Database | `migrations/001_init.sql`; seed in `src/db/seed.ts`; `better-sqlite3` working |
+| Routes | Per **Appendix C** in `requirements.md` |
+| Nav | Five links; exact-match active state only |
+| Schema | Matches **Appendix A**; no `therapist_id` on appointments |
+| `confirmed` status | In schema + seed; no staff confirm UI in MVP |
+| Layout | Catalog/dashboard pages inside `Layout`; 404s plain text |
 | Types | `npm run typecheck` passes |
-| Tests | `npm test` passes; booking + dashboard comprehensive; other routes light |
-| Scope | No Phase 9/10 features, auth, or full dashboard CRUD |
-| Docs | `CHANGELOG.md` updated |
+| Tests | `npm test` passes; booking + dashboard comprehensive |
+| Docs | `CHANGELOG.md` updated; `requirements.md` appendices present |
+| Scope | No Phase 9/10, therapist profiles, or dashboard CRUD |
 
 ## Explicitly not required for this merge
 
 - Phase 9 accessibility audit or hamburger nav
-- Phase 10 custom 404/500 pages, sanitization middleware, logging
+- Phase 10 styled 404/500 pages, sanitization middleware, logging
 - Prefix-based active nav for `/agents/:id`
-- Full CRUD on dashboard
-- Therapist profiles, email, auth
+- Staff action to confirm appointments (`pending` → `confirmed`)
+- Agent detail → recommended therapies
+- Therapist column on appointments
 - CI workflow changes
 
 ## Reviewer checklist
@@ -93,9 +104,9 @@ Run `npm run dev` and verify in a modern browser at **~375px** and **~1280px** w
 - [ ] Checked out `feature/mvp` and ran `npm install`.
 - [ ] `npm run typecheck` passes with no errors.
 - [ ] `npm test` passes with no failures.
-- [ ] Changes match `specs/2026-06-30-mvp/requirements.md` scope.
-- [ ] Database migration + seed runs cleanly on fresh checkout.
+- [ ] Changes match `specs/2026-06-30-mvp/requirements.md` (including appendices).
+- [ ] `npm run db:setup` runs cleanly on fresh checkout.
 - [ ] Browser spot-check: all routes at mobile (~375px) and desktop (~1280px).
-- [ ] Booking flow: form submit → confirmation with `pending` status.
-- [ ] Dashboard counts align with visible seed data.
+- [ ] Booking flow: form submit → `303` → confirmation with `pending` status.
+- [ ] Dashboard counts align with `SEED_*` constants.
 - [ ] No coming-soon placeholder remains at `/agents`.
