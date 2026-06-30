@@ -10,11 +10,12 @@ describe("stylesheet routes", () => {
     expect(response.headers.get("content-type")).toContain("text/css");
   });
 
-  it(`GET ${picoCssHref} serves Pico CSS`, async () => {
+  it(`GET ${picoCssHref} serves the full Pico CSS bundle`, async () => {
     const body = await (await requestApp(picoCssHref)).text();
 
-    expect(body).toContain(":root");
-    expect(body).toContain("--pico-font-family");
+    expect(body.length).toBeGreaterThan(50_000);
+    expect(body).toContain("--pico-nav-element-spacing-horizontal");
+    expect(body).toContain("nav,nav ul{display:flex}");
   });
 
   it(`GET ${layoutCssHref} returns 200 with text/css`, async () => {
@@ -24,12 +25,13 @@ describe("stylesheet routes", () => {
     expect(response.headers.get("content-type")).toContain("text/css");
   });
 
-  it(`GET ${layoutCssHref} serves AgentClinic override rules`, async () => {
+  it(`GET ${layoutCssHref} serves AgentClinic theme override rules`, async () => {
     const body = await (await requestApp(layoutCssHref)).text();
 
-    expect(body).toContain("--pico-primary");
+    expect(body).toContain(":root:not([data-theme=dark])");
     expect(body).toContain('nav a[aria-current="page"]');
     expect(body).toContain("main.container");
+    expect(body).not.toContain("--pico-nav-element-spacing-horizontal");
   });
 
   it("GET /styles/unknown.css returns 404", async () => {

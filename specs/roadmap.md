@@ -22,7 +22,7 @@ Phases are intentionally small — each one is a shippable slice of work, indepe
 - **Responsive base** — viewport meta, mobile-first CSS, fluid spacing tokens, `clamp()` typography
 - **Vitest suite** — route, component, page, and stylesheet tests (`npm test`)
 
-## Phase 2 — Navigation & Layout Polish
+## Phase 2 — Navigation & Layout Polish ✅ Complete
 
 Phase 1 delivered the layout shell and responsive CSS foundation. Phase 2 finishes the **base layout** experience:
 

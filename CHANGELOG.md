@@ -4,6 +4,13 @@ User-facing changes grouped by date (newest first). Update before merging via th
 
 ## 2026-06-29
 
+- Adopt **Pico CSS** as the site stylesheet baseline with a thin `layout.css` override layer
+- Add **site navigation** — `Nav` component, Home/Agents links, active link state, and `/agents` coming-soon page
+- Improve layout **accessibility** — per-page `<title>`, headings in `<main>`, brand as linked `<strong>` in nav
+- Fix **Pico brand colours** with theme-specific CSS variable selectors for light and dark mode
+- Add **layout prop types** (`types.ts`) for `currentPath` and page `title`
+- Add **Phase 2 spec** (`specs/2026-06-29-navigation-layout-polish/`), update `specs/tech-stack.md`, and mark Phase 2 complete on the roadmap
+- Expand **Vitest coverage** for nav markup, route integration, and Pico/override stylesheet routes
 - Replan roadmap: Phase 1 marked complete; Phase 2 refocused on navigation and layout polish
 - Add responsive design — viewport meta, mobile-first CSS, fluid spacing tokens, and Vitest coverage
 - Add Vitest validation (`npm test`) with route, component, page, and stylesheet test suites

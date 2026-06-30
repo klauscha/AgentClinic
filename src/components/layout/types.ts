@@ -8,6 +8,10 @@ export type NavProps = CurrentPathProps;
 
 export type HeaderProps = CurrentPathProps;
 
-export type LayoutProps = PropsWithChildren<CurrentPathProps>;
+export type LayoutProps = PropsWithChildren<
+  CurrentPathProps & {
+    title: string;
+  }
+>;
 
 export type MainProps = PropsWithChildren;

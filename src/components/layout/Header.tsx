@@ -7,7 +7,9 @@ export function Header({ currentPath }: HeaderProps) {
       <nav aria-label="Main">
         <ul>
           <li>
-            <h1>AgentClinic</h1>
+            <a href="/">
+              <strong>AgentClinic</strong>
+            </a>
           </li>
         </ul>
         <Nav currentPath={currentPath} />

@@ -9,7 +9,7 @@ export function Nav({ currentPath }: NavProps) {
   return (
     <ul>
       {NAV_LINKS.map(({ href, label }) => (
-        <li>
+        <li key={href}>
           <a href={href} aria-current={currentPath === href ? "page" : undefined}>
             {label}
           </a>

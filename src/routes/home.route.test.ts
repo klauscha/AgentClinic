@@ -10,16 +10,19 @@ describe("home route", () => {
     expect(response.headers.get("content-type")).toContain("text/html");
   });
 
-  it("GET / includes the clinic heading and home tagline", async () => {
+  it("GET / includes the page heading in main and home tagline", async () => {
     const body = await (await requestApp("/")).text();
 
+    expect(body).toContain("<main");
     expect(body).toContain("<h1>AgentClinic</h1>");
     expect(body).toContain("AgentClinic is open for business");
+    expect(body).toContain("<strong>AgentClinic</strong>");
   });
 
-  it("GET / renders nav, Pico landmarks, and both stylesheets", async () => {
+  it("GET / renders nav, Pico landmarks, and both stylesheets in order", async () => {
     const body = await (await requestApp("/")).text();
 
+    expect(body).toContain("<nav");
     expect(body).toContain('aria-label="Main"');
     expect(body).toContain('href="/"');
     expect(body).toContain(">Home</a>");
@@ -28,8 +31,7 @@ describe("home route", () => {
     expect(body).toContain('href="/" aria-current="page"');
     expect(body).not.toContain('href="/agents" aria-current="page"');
     expect(body).toContain('class="container"');
-    expect(body).toContain(`href="${picoCssHref}"`);
-    expect(body).toContain(`href="${layoutCssHref}"`);
+    expect(body.indexOf(picoCssHref)).toBeLessThan(body.indexOf(layoutCssHref));
   });
 
   it("GET / uses a semantic HTML document shell with viewport and color-scheme meta", async () => {

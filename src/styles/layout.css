@@ -1,11 +1,30 @@
 /* AgentClinic overrides — loaded after Pico CSS */
 
-:root {
+:root:not([data-theme=dark]),
+[data-theme=light] {
   --pico-primary: #0f766e;
   --pico-primary-background: #0f766e;
   --pico-primary-border: #0d6b64;
   --pico-primary-underline: rgba(15, 118, 110, 0.5);
   --pico-primary-focus: rgba(15, 118, 110, 0.25);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --pico-primary: #5eead4;
+    --pico-primary-background: #0f766e;
+    --pico-primary-border: #0d6b64;
+    --pico-primary-underline: rgba(94, 234, 212, 0.5);
+    --pico-primary-focus: rgba(94, 234, 212, 0.25);
+  }
+}
+
+[data-theme=dark] {
+  --pico-primary: #5eead4;
+  --pico-primary-background: #0f766e;
+  --pico-primary-border: #0d6b64;
+  --pico-primary-underline: rgba(94, 234, 212, 0.5);
+  --pico-primary-focus: rgba(94, 234, 212, 0.25);
 }
 
 body {
@@ -18,10 +37,8 @@ main.container {
   flex: 1;
 }
 
-header h1 {
-  margin: 0;
+header strong {
   font-size: 1.25rem;
-  color: var(--pico-primary);
 }
 
 nav a[aria-current="page"] {

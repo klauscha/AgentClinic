@@ -5,27 +5,16 @@ import { Footer } from "./Footer.js";
 import { Header } from "./Header.js";
 import { Layout } from "./Layout.js";
 import { Main } from "./Main.js";
-import { Nav } from "./Nav.js";
-
-describe("Nav", () => {
-  it("renders list items with anchor links", async () => {
-    const html = await renderPage(() => <Nav currentPath="/" />);
-
-    expect(html).toContain("<li>");
-    expect(html).toContain('href="/"');
-    expect(html).toContain(">Home</a>");
-    expect(html).toContain('href="/agents"');
-    expect(html).toContain(">Agents</a>");
-  });
-});
 
 describe("Header", () => {
-  it("renders Pico container header with branding and nav", async () => {
+  it("renders Pico nav landmark with brand link and nav links", async () => {
     const html = await renderPage(() => <Header currentPath="/" />);
 
     expect(html).toContain('class="container"');
+    expect(html).toContain("<nav");
     expect(html).toContain('aria-label="Main"');
-    expect(html).toContain("<h1>AgentClinic</h1>");
+    expect(html).toContain("<strong>AgentClinic</strong>");
+    expect(html).not.toContain("<h1>");
     expect(html).toContain('href="/"');
     expect(html).toContain(">Home</a>");
   });
@@ -56,17 +45,17 @@ describe("Footer", () => {
 });
 
 describe("Layout", () => {
-  it("links Pico and layout stylesheets and composes header, main, and footer", async () => {
+  it("links Pico before layout.css and composes header, main, and footer", async () => {
     const Page = () => (
-      <Layout currentPath="/">
+      <Layout currentPath="/" title="Test Page">
         <p>Page body</p>
       </Layout>
     );
 
     const html = await renderPage(Page);
 
-    expect(html).toContain(`href="${picoCssHref}"`);
-    expect(html).toContain(`href="${layoutCssHref}"`);
+    expect(html).toContain("<title>Test Page</title>");
+    expect(html.indexOf(picoCssHref)).toBeLessThan(html.indexOf(layoutCssHref));
     expect(html).toContain('name="viewport"');
     expect(html).toContain('name="color-scheme"');
     expect(html).toContain('aria-label="Main"');

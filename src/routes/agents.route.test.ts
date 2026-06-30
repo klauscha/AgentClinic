@@ -13,7 +13,7 @@ describe("agents route", () => {
   it("GET /agents includes coming soon content inside layout", async () => {
     const body = await (await requestApp("/agents")).text();
 
-    expect(body).toContain("<h2>Agents</h2>");
+    expect(body).toContain("<h1>Agents</h1>");
     expect(body).toContain("Agent listings are coming soon");
     expect(body).toContain('class="container"');
     expect(body).toContain('aria-label="Main"');
@@ -26,10 +26,20 @@ describe("agents route", () => {
     expect(body).not.toMatch(/href="\/"[^>]*aria-current="page"/);
   });
 
-  it("GET /agents links Pico and layout stylesheets", async () => {
+  it("GET /agents links Pico before layout.css with a page-specific title", async () => {
     const body = await (await requestApp("/agents")).text();
 
-    expect(body).toContain(`href="${picoCssHref}"`);
-    expect(body).toContain(`href="${layoutCssHref}"`);
+    expect(body).toContain("<title>Agents — AgentClinic</title>");
+    expect(body.indexOf(picoCssHref)).toBeLessThan(body.indexOf(layoutCssHref));
+  });
+
+  it("GET /agents uses the same document shell as other layout pages", async () => {
+    const body = await (await requestApp("/agents")).text();
+
+    expect(body).toContain('<html lang="en">');
+    expect(body).toContain('name="viewport"');
+    expect(body).toContain('name="color-scheme"');
+    expect(body).toContain("<main");
+    expect(body).toContain("<footer");
   });
 });
