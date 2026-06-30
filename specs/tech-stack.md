@@ -10,17 +10,26 @@ AgentClinic is a server-side TypeScript application. All rendering happens on th
 | Runtime | Node.js | Stable, well-supported, vast ecosystem |
 | Server framework | **Hono** | Lightweight, TypeScript-first, fast, excellent DX; routes and middleware feel natural |
 | Templating | Hono JSX (server-side) | JSX without React overhead; components are just functions |
-| CSS | Plain CSS + CSS custom properties | No build step required; Steve gets a modern, attractive result |
-| UI | **Responsive, mobile-first layout** | Fluid spacing and typography; viewport meta on every page; media queries in shared CSS — works on phone through desktop |
+| CSS | **Pico CSS** (`@picocss/pico`) + project overrides | Semantic, class-light baseline; typography, focus, and nav styles built in; no CSS build step |
+| UI | **Responsive, mobile-first layout** | Pico scales typography and spacing; viewport and color-scheme meta in `Layout.tsx` — works on phone through desktop |
+
+## Styling
+
+AgentClinic uses a two-layer CSS stack:
+
+- **Pico CSS** — served from `node_modules/@picocss/pico/css/pico.min.css` at `/styles/pico.min.css`; linked first in `Layout.tsx`
+- **Project overrides** — `src/styles/layout.css` at `/styles/layout.css`; brand colours, layout tweaks, and nav active-state emphasis only
+
+Use Pico semantic markup (`header.container`, `nav` > `ul` > `li` > `a`, `main.container`) so the baseline styles apply without utility classes.
 
 ## Responsive design
 
 All AgentClinic pages share a responsive foundation:
 
-- **Mobile-first CSS** in `src/styles/layout.css` — base styles target small screens; `@media (min-width: …)` enhances layout for larger viewports
+- **Pico CSS** — fluid typography and spacing by default; horizontal nav flex layout with natural wrap on narrow viewports
 - **Viewport meta** — `<meta name="viewport" content="width=device-width, initial-scale=1" />` in `Layout.tsx` so mobile browsers scale correctly
-- **Fluid layout** — content regions use percentage/`max-width` widths and responsive padding tokens (`--space-sm`, `--space-md`, `--space-lg`) rather than fixed pixel layouts
-- **No client framework** — responsiveness is achieved with plain CSS custom properties and media queries only
+- **Color scheme** — `<meta name="color-scheme" content="light dark" />` so Pico respects system light/dark preference
+- **No client framework** — responsiveness is achieved with Pico CSS and a thin override stylesheet only
 
 ## Recommended: Hono
 

@@ -1,77 +1,38 @@
-:root {
-  --color-bg: #f8fafc;
-  --color-surface: #ffffff;
-  --color-text: #1e293b;
-  --color-accent: #0f766e;
-  --color-border: #e2e8f0;
-  --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
-  --space-sm: 0.75rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --content-max-width: 48rem;
-}
+/* AgentClinic overrides — loaded after Pico CSS */
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+:root {
+  --pico-primary: #0f766e;
+  --pico-primary-background: #0f766e;
+  --pico-primary-border: #0d6b64;
+  --pico-primary-underline: rgba(15, 118, 110, 0.5);
+  --pico-primary-focus: rgba(15, 118, 110, 0.25);
 }
 
 body {
-  margin: 0;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: var(--font-sans);
-  color: var(--color-text);
-  background: var(--color-bg);
-  line-height: 1.5;
-  overflow-wrap: break-word;
+  min-height: 100vh;
 }
 
-.site-header {
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
-  padding: var(--space-md);
-}
-
-.site-header h1 {
-  margin: 0;
-  font-size: clamp(1.25rem, 4vw, 1.75rem);
-  color: var(--color-accent);
-}
-
-.site-main {
+main.container {
   flex: 1;
-  padding: var(--space-md);
-  max-width: var(--content-max-width);
-  margin: 0 auto;
-  width: 100%;
 }
 
-.site-footer {
-  background: var(--color-surface);
-  border-top: 1px solid var(--color-border);
-  padding: var(--space-md);
-  text-align: center;
-  font-size: 0.875rem;
-  color: #64748b;
-}
-
-.site-footer p {
+header h1 {
   margin: 0;
+  font-size: 1.25rem;
+  color: var(--pico-primary);
 }
 
-@media (min-width: 48rem) {
-  .site-header,
-  .site-main,
-  .site-footer {
-    padding-left: var(--space-lg);
-    padding-right: var(--space-lg);
-  }
+nav a[aria-current="page"] {
+  font-weight: 600;
+}
 
-  .site-main {
-    padding-top: var(--space-lg);
-    padding-bottom: var(--space-lg);
-  }
+footer {
+  text-align: center;
+  padding-block: var(--pico-block-spacing-vertical);
+}
+
+footer p {
+  margin: 0;
 }

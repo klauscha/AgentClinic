@@ -8,6 +8,7 @@ describe("Home page", () => {
 
     expect(html).toContain("<h1>AgentClinic</h1>");
     expect(html).toContain("AgentClinic is open for business");
-    expect(html).toContain('class="site-main"');
+    expect(html).toContain('<main class="container">');
+    expect(html).toContain('href="/" aria-current="page"');
   });
 });

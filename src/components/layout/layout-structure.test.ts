@@ -6,8 +6,8 @@ import { describe, expect, it } from "vitest";
 const layoutDir = join(dirname(fileURLToPath(import.meta.url)));
 
 describe("layout module structure", () => {
-  it("defines Header, Main, Footer, and Layout in separate files", () => {
-    for (const file of ["Header.tsx", "Main.tsx", "Footer.tsx", "Layout.tsx"]) {
+  it("defines Header, Main, Footer, Nav, and Layout in separate files", () => {
+    for (const file of ["Header.tsx", "Main.tsx", "Footer.tsx", "Nav.tsx", "Layout.tsx"]) {
       expect(existsSync(join(layoutDir, file))).toBe(true);
     }
   });
@@ -21,5 +21,12 @@ describe("layout module structure", () => {
     expect(layoutSource).not.toMatch(/<header[\s>]/);
     expect(layoutSource).not.toMatch(/<footer[\s>]/);
     expect(layoutSource).not.toMatch(/<main[\s>]/);
+  });
+
+  it("composes Nav in Header via import only", () => {
+    const headerSource = readFileSync(join(layoutDir, "Header.tsx"), "utf8");
+
+    expect(headerSource).toContain('from "./Nav.js"');
+    expect(headerSource).not.toContain('href="/agents"');
   });
 });
